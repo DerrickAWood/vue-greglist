@@ -1,6 +1,11 @@
 <template>
-  <div class="cars col-3">
-    <img class="img-fluid" :src="carData.img" alt="">
+  <div class="car border col-3">
+   <img class="img-fluid" :src="carData.imgUrl" alt="">
+    <h5>{{carData.make}}</h5>
+    <h5>{{carData.model}}</h5>
+    <h5>{{carData.price}}</h5>
+    <h5>{{carData.make}}</h5>
+    <button class="btn btn-danger" @click="deleteCar()">Delete</button>
   </div>
 </template>
 
@@ -13,7 +18,11 @@
 
       }
     },
-    methods: {}
+    methods: {
+      deleteCar(){
+        this.$store.dispatch("deleteCar", this.carData._id)
+      }
+    }
   }
 </script>
 

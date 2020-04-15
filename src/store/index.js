@@ -1,5 +1,5 @@
 import Vue from 'vue'
-import Vuex from 'vuex'
+import Vuex, { createNamespacedHelpers } from 'vuex'
 import axios from 'axios'
 
 Vue.use(Vuex)
@@ -13,14 +13,34 @@ export default new Vuex.Store({
     cars: []
   },
   mutations: {
+    setCars(state, cars){
+      state.cars = cars
+    }
   },
   actions: {
     async getCars({commit, dispatch}){
       try {
         let res = await _api.get('cars')
         console.log(res.data.data);
+        commit('setCars', res.data.data)
       } catch (error) {
         console.error(error)
+      }
+    },
+    async deleteCar({commit, dispatch}, carId){
+      try {
+        await _api.delete('cars/' + carId)
+        dispatch('getCars')
+      } catch (error) {
+        console.error(error)
+      }
+    },
+    async createCar({commit, dispatch}, newCar){
+      try {
+        let res = _api.post('cars', newCar)
+        dispatch('getCars')
+      } catch (error) {
+        console.log(error)
       }
     }
   },
